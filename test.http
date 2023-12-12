@@ -1,1 +1,29 @@
-GET http://localhost:5000/api/data
+GET http://localhost:5000/api/hello
+
+###
+
+GET http://localhost:5000/test/read_analog
+
+###
+
+GET http://localhost:5000/test/digital_high
+
+###
+
+GET http://localhost:5000/test/digital_low
+
+###
+
+GET http://localhost:5000/test/read_temperature
+
+###
+
+GET http://localhost:5000/test/pwm_duty_none
+
+###
+
+GET http://localhost:5000/test/pwm_duty_half
+
+###
+
+GET http://localhost:5000/test/pwm_duty_full

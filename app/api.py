@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, current_app
 api_bp = Blueprint('api', __name__)
 
 # Define a route for '/api/data' that handles GET requests
-@api_bp.route('/api/data', methods=['GET'])
+@api_bp.route('/hello', methods=['GET'])
 def get_data():
     # Access the 'SECRET_KEY' configuration value from the current application
     secret_key = current_app.config['SECRET_KEY']
