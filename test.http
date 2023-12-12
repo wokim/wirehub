@@ -27,3 +27,14 @@ GET http://localhost:5000/test/pwm_duty_half
 ###
 
 GET http://localhost:5000/test/pwm_duty_full
+
+###
+
+POST http://localhost:5000/api/target_temperature
+Content-Type: application/json
+
+{"target_temperature": 30}
+
+###
+
+GET http://localhost:5000/api/current_temperature
