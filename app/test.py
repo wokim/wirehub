@@ -59,3 +59,29 @@ def set_pwm_duty_half():
 def set_pwm_duty_full():
     set_pwm_duty(0, 100)
     return jsonify({"0": 100})
+
+@test_bp.route('/pwm_pump_max', methods=['GET'])
+def pwm_pump_max():
+    set_pwm_duty(1, 5)
+    return jsonify({"0": 5})
+
+@test_bp.route('/pwm_pump_max_to_min', methods=['GET'])
+def pwm_pump_max_to_min():
+    set_pwm_duty(1, 87)
+    return jsonify({"0": 87})
+
+@test_bp.route('/pwm_pump_min', methods=['GET'])
+def pwm_pump_min():
+    set_pwm_duty(1, 88)
+    return jsonify({"0": 88})
+
+@test_bp.route('/pwm_pump_hysteresis', methods=['GET'])
+def pwm_pump_hysteresis():
+    set_pwm_duty(1, 93)
+    return jsonify({"0": 93})
+
+@test_bp.route('/pwm_pump_standby', methods=['GET'])
+def pwm_pump_standby():
+    set_pwm_duty(1, 100)
+    return jsonify({"0": 100})
+

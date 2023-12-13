@@ -38,3 +38,24 @@ Content-Type: application/json
 ###
 
 GET http://localhost:5000/api/current_temperature
+
+
+###
+
+GET http://localhost:5000/test/pwm_pump_max
+
+###
+
+GET http://localhost:5000/test/pwm_pump_max_to_min
+
+###
+
+GET http://localhost:5000/test/pwm_pump_min
+
+###
+
+GET http://localhost:5000/test/pwm_pump_standby
+
+###
+
+GET http://localhost:5000/test/pwm_pump_hysteresis
