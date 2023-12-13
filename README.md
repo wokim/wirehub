@@ -21,3 +21,8 @@ SuperB is an open-source project, and contributions from the community are welco
 To start using SuperB, follow our comprehensive documentation available on the [GitHub repository](https://github.com/wokim/SuperB). Feel free to explore the codebase, submit bug reports, and join discussions on potential improvements.
 
 SuperB aims to revolutionize climate control systems by combining smart technology with sustainability. Join us in creating a more efficient and eco-friendly future!
+
+```sh
+docker build -t superb .
+docker run --device /dev/i2c-1 --privileged -d -p 5000:5000 superb
+```
