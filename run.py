@@ -1,6 +1,5 @@
 from app import create_app
-import RPi.GPIO as GPIO
-from app.gpio import detect_board, print_board_status, board, init_board
+from app.gpio import detect_board, print_board_status, board, init_board, cleanup_board
 import time
 
 app = create_app()
@@ -19,4 +18,4 @@ if __name__ == '__main__':
         app.run(debug=True, host='0.0.0.0')
     finally:
         # Cleanup GPIO to release resources
-        GPIO.cleanup()
+        cleanup_board()

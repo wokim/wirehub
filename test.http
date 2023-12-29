@@ -1,10 +1,44 @@
-GET http://localhost:5000/api/hello
+GET http://localhost:5000/api/adc/0
 
 ###
 
-GET http://localhost:5000/test/read_analog
+GET http://localhost:5000/api/mcp3008/0
 
 ###
+
+GET http://localhost:5000/api/digital/0
+
+###
+
+PUT http://localhost:5000/api/digital
+Content-Type: application/json
+
+{"pin": 0, "value": false}
+
+###
+
+GET http://localhost:5000/api/pwm_duty/3
+
+###
+
+PUT http://localhost:5000/api/pwm_duty
+Content-Type: application/json
+
+{"pin": 3, "value": 14}
+
+###
+
+GET http://localhost:5000/api/info
+
+###
+
+
+
+
+
+
+
+
 
 GET http://localhost:5000/test/digital_high
 
@@ -30,14 +64,14 @@ GET http://localhost:5000/test/pwm_duty_full
 
 ###
 
-POST http://localhost:5000/api/target_temperature
+POST http://localhost:5000/api/schedule_heating
 Content-Type: application/json
 
-{"target_temperature": 30}
+{"target_temperature": 24}
 
 ###
 
-GET http://localhost:5000/api/current_temperature
+GET http://localhost:5000/api/target_temperature
 
 
 ###

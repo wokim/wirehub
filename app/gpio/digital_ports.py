@@ -1,5 +1,19 @@
 import RPi.GPIO as GPIO
 
+def get_digital_input(pin):
+    try:
+        # Set GPIO mode to BCM
+        GPIO.setmode(GPIO.BCM)
+
+        # Set the specified pin as an INPUT
+        GPIO.setup(pin, GPIO.OUT)
+
+        return GPIO.input(pin)
+
+    except Exception as e:
+        print(f"Error getting GPIO pin {pin}: {e}")
+
+
 def set_digital_output(pin, value):
     """
     Set the digital output of the specified GPIO pin.

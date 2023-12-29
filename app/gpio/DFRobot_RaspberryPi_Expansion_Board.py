@@ -96,10 +96,11 @@ class DFRobot_Expansion_Board:
   def _parse_id(self, limit, id):
     ld = []
     if isinstance(id, list) == False:
-      id = id + 1
+      # id = id + 1
       ld.append(id)
     else:
-      ld = [i + 1 for i in id]
+      # ld = [i + 1 for i in id]
+      ld = [i for i in id]
     if ld == self.ALL:
       return range(1, limit + 1)
     for i in ld:
@@ -140,6 +141,14 @@ class DFRobot_Expansion_Board:
     time.sleep(0.01)
     if is_pwm_enable:
       self.set_pwm_enable()
+
+  def get_pwm_duty(self, chan):
+    '''
+      @brief    Get selected channel duty
+      @param chan: list     One channel to get, items in range 1 to 4
+    '''
+    rslt = self._read_bytes(self._REG_PWM_DUTY1 + (chan - 1) * 2, 2)
+    return float(rslt[0] + rslt[1] / 10)
 
   def set_pwm_duty(self, chan, duty):
     '''
