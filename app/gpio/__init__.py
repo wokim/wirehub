@@ -13,6 +13,13 @@ def init_board():
   spi.open(0, 0)  # (bus, device)
   spi.max_speed_hz = 1000000  # SPI Speed: 1MHz
 
+  # Set GPIO mode to BCM
+  GPIO.setmode(GPIO.BCM)
+
+  # Set the specified pin as an OUTPUT
+  GPIO.setup([i for i in range(22, 28)], GPIO.OUT, initial=GPIO.LOW)
+  print(f"GPIO setup complete!")
+
 def cleanup_board():
   GPIO.cleanup()
   spi.close()

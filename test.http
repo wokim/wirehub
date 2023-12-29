@@ -6,90 +6,26 @@ GET http://localhost:5000/api/mcp3008/0
 
 ###
 
-GET http://localhost:5000/api/digital/0
+GET http://localhost:5000/api/digital/22
 
 ###
 
 PUT http://localhost:5000/api/digital
 Content-Type: application/json
 
-{"pin": 0, "value": false}
+{"pin": 27, "value": true}
 
 ###
 
-GET http://localhost:5000/api/pwm_duty/3
+GET http://localhost:5000/api/pwm_duty/0
 
 ###
 
 PUT http://localhost:5000/api/pwm_duty
 Content-Type: application/json
 
-{"pin": 3, "value": 14}
+{"pin": 3, "value": 60}
 
 ###
 
 GET http://localhost:5000/api/info
-
-###
-
-
-
-
-
-
-
-
-
-GET http://localhost:5000/test/digital_high
-
-###
-
-GET http://localhost:5000/test/digital_low
-
-###
-
-GET http://localhost:5000/test/read_temperature
-
-###
-
-GET http://localhost:5000/test/pwm_duty_none
-
-###
-
-GET http://localhost:5000/test/pwm_duty_half
-
-###
-
-GET http://localhost:5000/test/pwm_duty_full
-
-###
-
-POST http://localhost:5000/api/schedule_heating
-Content-Type: application/json
-
-{"target_temperature": 24}
-
-###
-
-GET http://localhost:5000/api/target_temperature
-
-
-###
-
-GET http://localhost:5000/test/pwm_pump_max
-
-###
-
-GET http://localhost:5000/test/pwm_pump_max_to_min
-
-###
-
-GET http://localhost:5000/test/pwm_pump_min
-
-###
-
-GET http://localhost:5000/test/pwm_pump_standby
-
-###
-
-GET http://localhost:5000/test/pwm_pump_hysteresis

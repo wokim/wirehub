@@ -35,11 +35,11 @@ def read_mcp3008_data(pin):
 @api_bp.route('/digital/<int:pin>', methods=['GET'])
 def read_digital_data(pin):
     try:
-        if 0 <= pin <= 27:
+        if 22 <= pin <= 27:
             value = get_digital_input(pin)
             return jsonify({'pin': pin, 'value': value == 1})
         else:
-            return jsonify({'error': 'Invalid pin number. Should be between 0 and 27.'}), 400
+            return jsonify({'error': 'Invalid pin number. Should be between 22 and 27.'}), 400
 
     except ValueError:
         return jsonify({'error': 'Invalid pin number. Should be an integer.'}), 400
@@ -52,11 +52,11 @@ def write_digital_data():
         pin = data.get('pin')
         value = data.get('value')
 
-        if isinstance(pin, int) and 0 <= pin <= 27 and isinstance(value, bool):
+        if isinstance(pin, int) and 22 <= pin <= 27 and isinstance(value, bool):
             set_digital_output(pin, value)
             return jsonify({'pin': pin, 'value': value})
         else:
-            return jsonify({'error': 'Invalid pin or value. Pin should be an integer between 0 and 27, and value should be a boolean (True or False).'}), 400
+            return jsonify({'error': 'Invalid pin or value. Pin should be an integer between 22 and 27, and value should be a boolean (True or False).'}), 400
 
     except ValueError:
         return jsonify({'error': 'Invalid pin or value. Pin should be an integer, and value should be a boolean (True or False).'}), 400
@@ -104,48 +104,7 @@ def read_info():
         ret['analog'].append(read_analog(i+1))
     for j in range(0, 8):
         ret['mcp3008'].append(read_adc(j))
-    for k in range(0, 28):
-        ret['digital'].append(get_digital_input(k))
+    for k in range(22, 28):
+        ret['digital'].append(get_digital_input(k) == 1)
 
     return jsonify(ret)
-
-# @api_bp.route('/pwm_duty_none', methods=['GET'])
-# def set_pwm_duty_none():
-#     set_pwm_duty(0, 0)
-#     return jsonify({"0": 0})
-
-# @api_bp.route('/pwm_duty_half', methods=['GET'])
-# def set_pwm_duty_half():
-#     set_pwm_duty(0, 50)
-#     return jsonify({"0": 50})
-
-# @api_bp.route('/pwm_duty_full', methods=['GET'])
-# def set_pwm_duty_full():
-#     set_pwm_duty(0, 100)
-#     return jsonify({"0": 100})
-
-# @api_bp.route('/pwm_pump_max', methods=['GET'])
-# def pwm_pump_max():
-#     set_pwm_duty(1, 5)
-#     return jsonify({"0": 5})
-
-# @api_bp.route('/pwm_pump_max_to_min', methods=['GET'])
-# def pwm_pump_max_to_min():
-#     set_pwm_duty(1, 87)
-#     return jsonify({"0": 87})
-
-# @api_bp.route('/pwm_pump_min', methods=['GET'])
-# def pwm_pump_min():
-#     set_pwm_duty(1, 88)
-#     return jsonify({"0": 88})
-
-# @api_bp.route('/pwm_pump_hysteresis', methods=['GET'])
-# def pwm_pump_hysteresis():
-#     set_pwm_duty(1, 93)
-#     return jsonify({"0": 93})
-
-# @api_bp.route('/pwm_pump_standby', methods=['GET'])
-# def pwm_pump_standby():
-#     set_pwm_duty(1, 100)
-#     return jsonify({"0": 100})
-

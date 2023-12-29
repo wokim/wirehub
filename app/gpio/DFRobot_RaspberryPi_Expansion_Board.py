@@ -81,6 +81,7 @@ class DFRobot_Expansion_Board:
         self.set_pwm_disable()
         self.set_pwm_duty(self.ALL, 0)
         self.set_adc_disable()
+    print(f"last_operate_status: {self.last_operate_status}")
     return self.last_operate_status
 
   def set_addr(self, addr):
