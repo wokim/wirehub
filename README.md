@@ -23,6 +23,8 @@ To start using SuperB, follow our comprehensive documentation available on the [
 SuperB aims to revolutionize climate control systems by combining smart technology with sustainability. Join us in creating a more efficient and eco-friendly future!
 
 ```sh
+pip install RPi.GPIO spidev smbus Flask
+
 docker build -t superb .
 docker run --device /dev/i2c-1 --privileged -d -p 5000:5000 superb
 ```
