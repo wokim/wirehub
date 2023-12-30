@@ -1,13 +1,3 @@
-<!-- # WireHub
-
-## for the Developers
-```sh
-pip install -r requirements.txt
-pip install RPi.GPIO spidev smbus Flask
-
-docker build -t superb .
-docker run --device /dev/i2c-1 --privileged -d -p 5000:5000 superb
-``` -->
 # WireHub
 
 WireHub is a service that provides RESTful APIs for controlling analog input/output, digital input/output, MCP3008 input/output, and PWM on a Raspberry Pi.
