@@ -21,7 +21,7 @@ COPY . /app
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Install Gunicorn
-RUN pip install gunicorn
+# RUN pip install gunicorn
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
@@ -29,5 +29,5 @@ EXPOSE 5000
 # Define environment variable
 # ENV NAME World
 
-# Run Gunicorn to start the Flask app
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "run:app"]
+# Start the Flask app
+CMD ["python", "run.py"]

@@ -26,12 +26,12 @@ API specifications can be found using Swagger at [http://localhost:5000/apidocs]
 ### Using Docker
 Build the Docker image:
 ```bash
-docker build -t superb .
+docker build -t wirehub .
 ```
 
 Run the Docker container:
 ```bash
-docker run --device /dev/i2c-1 --privileged -d -p 5000:5000 superb
+docker run --device /dev/i2c-1 --device /dev/gpiomem --device /dev/spidev0.0 --privileged -d -p 5000:5000 wirehub
 ```
 
 ### For Developers
