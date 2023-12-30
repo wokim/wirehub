@@ -10,6 +10,19 @@ api_bp = Blueprint('api', __name__)
 
 @api_bp.route('/adc/<int:pin>', methods=['GET'])
 def read_analog_data(pin):
+    """
+    Get Analog Data
+    ---
+    parameters:
+      - name: pin
+        in: path
+        type: integer
+        required: true
+        description: The pin number for analog input (should be between 0 and 3)
+    responses:
+      200:
+        description: Success
+    """
     try:
         if 0 <= pin <= 3:
             value = read_analog(pin+1)
@@ -22,6 +35,19 @@ def read_analog_data(pin):
 
 @api_bp.route('/mcp3008/<int:pin>', methods=['GET'])
 def read_mcp3008_data(pin):
+    """
+    Get MCP3008 Data
+    ---
+    parameters:
+      - name: pin
+        in: path
+        type: integer
+        required: true
+        description: The pin number for MCP3008 input (should be between 0 and 7)
+    responses:
+      200:
+        description: Success
+    """
     try:
         if 0 <= pin <= 7:
             value = read_adc(pin)
@@ -34,6 +60,28 @@ def read_mcp3008_data(pin):
 
 @api_bp.route('/digital/<int:pin>', methods=['GET'])
 def read_digital_data(pin):
+    """
+    Get Digital Data
+    ---
+    parameters:
+      - name: pin
+        in: path
+        type: integer
+        required: true
+        description: The pin number for digital input (should be between 22 and 27)
+    responses:
+      200:
+        description: Success
+        schema:
+          type: object
+          properties:
+            pin:
+              type: integer
+              description: The pin number
+            value:
+              type: boolean
+              description: The digital input value (True or False)
+    """
     try:
         if 22 <= pin <= 27:
             value = get_digital_input(pin)
@@ -46,6 +94,35 @@ def read_digital_data(pin):
 
 @api_bp.route('/digital', methods=['PUT'])
 def write_digital_data():
+    """
+    Write Digital Data
+    ---
+    parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            pin:
+              type: integer
+              description: The pin number for digital output (should be between 22 and 27)
+            value:
+              type: boolean
+              description: The value to set for digital output (True or False)
+    responses:
+      200:
+        description: Success
+        schema:
+          type: object
+          properties:
+            pin:
+              type: integer
+              description: The pin number
+            value:
+              type: boolean
+              description: The digital output value
+    """
     try:
         data = request.json
 
@@ -63,6 +140,28 @@ def write_digital_data():
 
 @api_bp.route('/pwm_duty/<int:pin>', methods=['GET'])
 def read_pwm_duty(pin):
+    """
+    Get PWM Duty
+    ---
+    parameters:
+      - name: pin
+        in: path
+        type: integer
+        required: true
+        description: The pin number for PWM duty cycle (should be between 0 and 3)
+    responses:
+      200:
+        description: Success
+        schema:
+          type: object
+          properties:
+            pin:
+              type: integer
+              description: The pin number
+            value:
+              type: number
+              description: The PWM duty cycle value
+    """
     try:
         if 0 <= pin <= 3:
             value = get_pwm_duty(pin+1)
@@ -75,6 +174,35 @@ def read_pwm_duty(pin):
 
 @api_bp.route('/pwm_duty', methods=['PUT'])
 def write_pwm_duty():
+    """
+    Write PWM Duty
+    ---
+    parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            pin:
+              type: integer
+              description: The pin number for PWM duty cycle (should be between 0 and 3)
+            value:
+              type: number
+              description: The PWM duty cycle value (should be between 0.0 and 100.0)
+    responses:
+      200:
+        description: Success
+        schema:
+          type: object
+          properties:
+            pin:
+              type: integer
+              description: The pin number
+            value:
+              type: number
+              description: The PWM duty cycle value
+    """
     try:
         data = request.json
 
@@ -92,6 +220,47 @@ def write_pwm_duty():
 
 @api_bp.route('/info', methods=['GET'])
 def read_info():
+    """
+    Get System Information
+    ---
+    tags:
+      - System
+    responses:
+      200:
+        description: Success
+        schema:
+          type: object
+          properties:
+            pwm:
+              type: array
+              description: PWM duty cycle values for pins 1 to 4
+              items:
+                type: number
+            analog:
+              type: array
+              description: Analog values for pins 1 to 4
+              items:
+                type: number
+            mcp3008:
+              type: array
+              description: MCP3008 values for pins 0 to 7
+              items:
+                type: number
+            digital:
+              type: array
+              description: Digital input values for pins 22 to 27
+              items:
+                type: boolean
+            bits:
+              type: object
+              properties:
+                mcp3008:
+                  type: integer
+                  description: Number of bits for MCP3008 (should be 10)
+                analog:
+                  type: integer
+                  description: Number of bits for analog pins (should be 12)
+    """
     ret = {
         'pwm': [],
         'analog': [],

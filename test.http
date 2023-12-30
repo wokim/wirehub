@@ -24,7 +24,7 @@ GET http://localhost:5000/api/pwm_duty/0
 PUT http://localhost:5000/api/pwm_duty
 Content-Type: application/json
 
-{"pin": 3, "value": 60}
+{"pin": 3, "value": 35.5}
 
 ###
 
