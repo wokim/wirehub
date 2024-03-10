@@ -36,8 +36,8 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          # ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
-          # ghcr.io/${{ github.repository }}:latest
           ${{ secrets.DOCKERHUB_USERNAME }}/wirehub:${{ github.event.release.tag_name }}
           ${{ secrets.DOCKERHUB_USERNAME }}/wirehub:latest
+        # ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
+        # ghcr.io/${{ github.repository }}:latest
         platforms: linux/arm64
