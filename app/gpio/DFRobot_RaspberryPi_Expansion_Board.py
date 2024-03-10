@@ -11,7 +11,11 @@
   @url https://github.com/DFRobot/DFRobot_RaspberryPi_Expansion_Board
 '''
 
+import logging
 import time
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 _PWM_CHAN_COUNT = 4
 _ADC_CHAN_COUNT = 4
@@ -81,7 +85,7 @@ class DFRobot_Expansion_Board:
         self.set_pwm_disable()
         self.set_pwm_duty(self.ALL, 0)
         self.set_adc_disable()
-    print(f"last_operate_status: {self.last_operate_status}")
+    logger.info(f"last_operate_status: {self.last_operate_status}")
     return self.last_operate_status
 
   def set_addr(self, addr):
