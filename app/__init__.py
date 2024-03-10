@@ -1,12 +1,18 @@
+import logging
 from flask import Flask
-from .api import api_bp
-from app.gpio import detect_board, print_board_status, board, init_board, cleanup_board
 import time
 import atexit
+from .api import api_bp
+from app.gpio import detect_board, print_board_status, board, init_board, cleanup_board
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def create_app():
     # Create a Flask application instance
     app = Flask(__name__)
+
+    initialize_board()
 
     app.register_blueprint(api_bp, url_prefix='/api')
 
