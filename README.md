@@ -11,7 +11,17 @@ For more information about the DFRobot Expansion HAT, visit [DFRobot Expansion H
 - Manage PWM (Pulse Width Modulation) for precise control using DFRobot Expansion HAT.
 - Interface with MCP3008 for additional analog signal readings using the SPI interface on the DFRobot Expansion HAT.
 
-## API Documentation
+## Quick Start
+
+To quickly start using the WireHub project, you can pull the Docker image from Docker Hub and run it with the following command:
+
+```bash
+# Enable I2C and SPI on your Raspberry Pi
+$ sudo raspi-config
+
+# Pull the latest WireHub Docker image from Docker Hub and run it using the following command:
+$ docker run --device /dev/i2c-1 --device /dev/gpiomem --device /dev/spidev0.0 --privileged -d -p 5000:5000 wokim/wirehub:latest
+```
 
 ## API Documentation
 
@@ -59,7 +69,6 @@ Run the Docker container:
 
 ```bash
 docker run --device /dev/i2c-1 --device /dev/gpiomem --device /dev/spidev0.0 --privileged -d -p 5000:5000 --log-opt max-size=10m --log-opt max-file=3 wirehub
-
 ```
 
 ### For Developers
