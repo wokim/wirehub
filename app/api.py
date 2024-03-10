@@ -1,17 +1,35 @@
 from flask import Blueprint, request, jsonify
-from flask_restx import Api, Resource
+from flask_restx import Api, Resource, fields, Namespace
 from .gpio.dfrobot_analog import read_analog_from_dfrobot
 from .gpio.dfrobot_digital import write_digital_pin, read_digital_pin
 from .gpio.dfrobot_pwm import set_pwm_duty_cycle, get_pwm_duty_cycle
 from .gpio.mcp3008 import read_analog_from_mcp3008
 
-apis_bp = Blueprint('apis', __name__)
-api = Api(apis_bp, doc='/doc', title='GPIO Pin Control API', description='API for controlling GPIO pins on a Raspberry Pi')
+# Creating a Flask Blueprint
+api_bp = Blueprint('api', __name__)
+api = Api(api_bp, doc='/doc/', title='WireHub API', description='A Flask Restx powered API for controlling GPIOs on Raspberry Pi')
 
-@api.route('/digital/<int:pin>')
-@api.doc(params={'pin': 'A GPIO pin number for digital I/O'})
+# Defining a Flask-RESTx Namespace
+ns = Namespace('gpio', description='GPIO control and status endpoints')
+
+# Adding the Namespace to the Api object
+api.add_namespace(ns)
+
+# Model for digital pin
+digital_pin_model = ns.model('DigitalPinModel', {
+    'value': fields.Boolean(required=True, description='The digital value to set on the GPIO pin (True for HIGH, False for LOW)')
+})
+
+# Model for PWM pin
+pwm_pin_model = ns.model('PWMPinModel', {
+    'value': fields.Float(required=True, min=0.0, max=100.0, description='The PWM duty cycle value (0.0 to 100.0)')
+})
+
+# Endpoint for digital pin
+@ns.route('/digital/<int:pin>')
+@ns.doc(params={'pin': 'A GPIO pin number for digital I/O'})
 class DigitalPin(Resource):
-    @api.doc(description='Read the digital input value from a specified GPIO pin.')
+    @ns.doc(description='Read the digital input value from a specified GPIO pin.')
     def get(self, pin):
         try:
             value = read_digital_pin(pin)
@@ -21,7 +39,8 @@ class DigitalPin(Resource):
         except Exception as e:
             return {'message': 'An error occurred while reading the digital pin.'}, 500
 
-    @api.doc(description='Write a digital output value to a specified GPIO pin.')
+    @ns.doc(description='Write a digital output value to a specified GPIO pin.')
+    @ns.expect(digital_pin_model)
     def put(self, pin):
         data = request.get_json()
         value = data.get('value', None)
@@ -33,10 +52,11 @@ class DigitalPin(Resource):
         except Exception as e:
             return {'message': 'An error occurred while writing to the digital pin.'}, 500
 
-@api.route('/pwm/<int:pin>')
-@api.doc(params={'pin': 'A GPIO pin number for PWM output'})
+# Endpoint for PWM pin
+@ns.route('/pwm/<int:pin>')
+@ns.doc(params={'pin': 'A GPIO pin number for PWM output'})
 class PWMPin(Resource):
-    @api.doc(description='Read the PWM duty cycle value from a specified pin.')
+    @ns.doc(description='Read the PWM duty cycle value from a specified pin.')
     def get(self, pin):
         try:
             value = get_pwm_duty_cycle(pin)
@@ -46,7 +66,8 @@ class PWMPin(Resource):
         except Exception as e:
             return {'message': 'An error occurred while reading the PWM duty cycle.'}, 500
 
-    @api.doc(description='Write a PWM duty cycle value to a specified pin.')
+    @ns.doc(description='Write a PWM duty cycle value to a specified pin.')
+    @ns.expect(pwm_pin_model)
     def put(self, pin):
         data = request.get_json()
         value = data.get('value', None)
@@ -58,10 +79,10 @@ class PWMPin(Resource):
         except Exception as e:
             return {'message': 'An error occurred while setting the PWM duty cycle.'}, 500
 
-@api.route('/analog/<int:pin>')
-@api.doc(params={'pin': 'A GPIO pin number for analog input'})
+@ns.route('/analog/<int:pin>')
+@ns.doc(params={'pin': 'A GPIO pin number for analog input'})
 class AnalogPin(Resource):
-    @api.doc(description='Read the analog value from a specified DFRobot Expansion Board pin.')
+    @ns.doc(description='Read the analog value from a specified DFRobot Expansion Board pin.')
     def get(self, pin):
         try:
             value = read_analog_from_dfrobot(pin)
@@ -71,10 +92,10 @@ class AnalogPin(Resource):
         except Exception as e:
             return {'message': 'An error occurred while reading the analog pin.'}, 500
 
-@api.route('/mcp3008/<int:pin>')
-@api.doc(params={'pin': 'A channel number on the MCP3008 ADC'})
+@ns.route('/mcp3008/<int:pin>')
+@ns.doc(params={'pin': 'A channel number on the MCP3008 ADC'})
 class MCP3008Pin(Resource):
-    @api.doc(description='Read the analog value from a specified MCP3008 channel.')
+    @ns.doc(description='Read the analog value from a specified MCP3008 channel.')
     def get(self, pin):
         try:
             value = read_analog_from_mcp3008(pin)
@@ -84,9 +105,10 @@ class MCP3008Pin(Resource):
         except Exception as e:
             return {'message': 'An error occurred while reading the MCP3008 analog pin.'}, 500
 
-@api.route('/status')
+# Endpoint for status
+@ns.route('/status')
 class Status(Resource):
-    @api.doc(description='Get the status of all GPIO pins.')
+    @ns.doc(description='Get the status of all GPIO pins.')
     def get(self):
         status = {
             'digital': [],
