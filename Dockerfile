@@ -29,4 +29,4 @@ EXPOSE 5000
 # Specify the command to run on container start
 # Here, gunicorn is used as the WSGI server to serve the Flask app.
 # The app is served on 0.0.0.0:5000, and `run:app` points to the Flask app instance in the run.py file.
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--access-logfile", "-", "--log-level", "info", "run:app"]

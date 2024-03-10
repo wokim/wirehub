@@ -58,7 +58,8 @@ docker build -t wirehub .
 Run the Docker container:
 
 ```bash
-docker run --device /dev/i2c-1 --device /dev/gpiomem --device /dev/spidev0.0 --privileged -d -p 5000:5000 wirehub
+docker run --device /dev/i2c-1 --device /dev/gpiomem --device /dev/spidev0.0 --privileged -d -p 5000:5000 --log-opt max-size=10m --log-opt max-file=3 wirehub
+
 ```
 
 ### For Developers
