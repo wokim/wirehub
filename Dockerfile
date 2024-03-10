@@ -1,12 +1,12 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11.2-slim as builder
+FROM python:3.11.2-alpine as builder
 
 # Install build dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
+RUN apk update && apk add --no-cache \
+    build-base \
     python3-dev \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    linux-headers \
+    i2c-tools-dev
 
 # Set up a virtual environment
 RUN python3 -m venv /venv
@@ -17,14 +17,12 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Final stage
-FROM python:3.11.2-slim
+FROM python:3.11.2-alpine
 
 # Install runtime dependencies only
-RUN apt-get update && apt-get install -y \
-    python3-smbus \
-    i2c-tools \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk update && apk add --no-cache \
+    py3-smbus \
+    i2c-tools
 
 # Copy the virtual environment from the builder stage
 COPY --from=builder /venv /venv
