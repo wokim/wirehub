@@ -2,10 +2,14 @@ from .DFRobot_RaspberryPi_Expansion_Board import DFRobot_Expansion_Board_IIC as 
 import RPi.GPIO as GPIO
 import spidev
 
-board = Board(1, 0x10)    # Select i2c bus 1, set address to 0x10
-spi = spidev.SpiDev()
+board = None
+spi = None
 
 def init_board():
+  global board, spi
+  board = Board(1, 0x10)    # Select i2c bus 1, set address to 0x10
+  spi = spidev.SpiDev()
+
   board.set_adc_enable()
   board.set_pwm_enable()
   board.set_pwm_frequency(1000)

@@ -15,7 +15,7 @@ if __name__ == '__main__':
         init_board()
         print("board begin success")
 
-        app.run(debug=True, host='0.0.0.0')
+        app.run(debug=True, port=5000, host='0.0.0.0')
     finally:
         # Cleanup GPIO to release resources
         cleanup_board()
