@@ -1,36 +1,88 @@
 # WireHub
 
-WireHub is a service that provides RESTful APIs for controlling analog input/output, digital input/output, MCP3008 input/output, and PWM on a Raspberry Pi.
+WireHub is a service that provides RESTful APIs for controlling analog input/output, digital input/output, PWM, and reading analog inputs through MCP3008 on a Raspberry Pi using the DFRobot Expansion HAT. This HAT extends the capabilities of the Raspberry Pi, enabling precise control and interfacing with various electronic components.
+
+For more information about the DFRobot Expansion HAT, visit [DFRobot Expansion HAT for Raspberry Pi](https://wiki.dfrobot.com/IO%20Expansion%20HAT%20for%20Raspberry%20Pi%20%20SKU%3A%20%20DFR0566).
 
 ## Features
-- Control analog input/output.
-- Control digital input/output.
-- Interface with MCP3008 for analog signal readings.
-- Manage PWM (Pulse Width Modulation) for precise control.
+
+- Control digital input/output using DFRobot Expansion HAT.
+- Read analog inputs directly through DFRobot Expansion HAT.
+- Manage PWM (Pulse Width Modulation) for precise control using DFRobot Expansion HAT.
+- Interface with MCP3008 for additional analog signal readings using the SPI interface on the DFRobot Expansion HAT.
 
 ## API Documentation
-API specifications can be found using Swagger at [http://localhost:5000/apidocs](http://localhost:5000/apidocs).
+
+## API Documentation
+
+Below is the documentation for the available API endpoints, including their paths, methods, descriptions, and example request bodies for PUT methods.
+
+| Path                          | Method | Description                                                         | Request Parameters                         | Example Request Body for PUT                  |
+| ----------------------------- | ------ | ------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------- |
+| `/api/gpio/digital/<int:pin>` | GET    | Read the digital input value from a specified GPIO pin.             | `pin`: A GPIO pin number for digital I/O   | N/A                                           |
+| `/api/gpio/digital/<int:pin>` | PUT    | Write a digital output value to a specified GPIO pin.               | `pin`: A GPIO pin number for digital I/O   | `{"value": true}` or `{"value": false}`       |
+| `/api/gpio/pwm/<int:pin>`     | GET    | Read the PWM duty cycle value from a specified pin.                 | `pin`: A GPIO pin number for PWM output    | N/A                                           |
+| `/api/gpio/pwm/<int:pin>`     | PUT    | Write a PWM duty cycle value to a specified pin.                    | `pin`: A GPIO pin number for PWM output    | `{"value": 50.0}` (value range: 0.0 to 100.0) |
+| `/api/gpio/analog/<int:pin>`  | GET    | Read the analog value from a specified DFRobot Expansion Board pin. | `pin`: A GPIO pin number for analog input  | N/A                                           |
+| `/api/gpio/mcp3008/<int:pin>` | GET    | Read the analog value from a specified MCP3008 channel.             | `pin`: A channel number on the MCP3008 ADC | N/A                                           |
+| `/api/gpio/status`            | GET    | Get the status of all GPIO pins.                                    | None                                       | N/A                                           |
+
+Please replace `<int:pin>` with the actual pin number when making requests.
 
 ## Getting Started
 
+### Prerequisites
+
+Before running the WireHub service, ensure that the `I2C` and `SPI` interfaces are enabled on your Raspberry Pi as they are essential for communication with the DFRobot Expansion HAT and MCP3008.
+
+#### Enabling I2C and SPI
+
+1. Open the Raspberry Pi configuration tool in the terminal:
+
+   ```sh
+   sudo raspi-config
+   ```
+
+2. Navigate to `Interfacing Options` > `I2C` and select `<Yes>` to enable the I2C interface.
+3. For SPI, navigate to `Interfacing Options` > `SPI` and select `<Yes>` to enable the SPI interface.
+4. Finish and reboot your Raspberry Pi for the changes to take effect.
+
 ### Using Docker
+
 Build the Docker image:
+
 ```bash
 docker build -t wirehub .
 ```
 
 Run the Docker container:
+
 ```bash
 docker run --device /dev/i2c-1 --device /dev/gpiomem --device /dev/spidev0.0 --privileged -d -p 5000:5000 wirehub
 ```
 
 ### For Developers
-Install the required dependencies:
+
+#### Setting up a virtual environment
+
+It's recommended to create a virtual environment for the project dependencies. You can do this by running:
+
+```bash
+# Create a virtual environment named '.venv'
+python3 -m venv .venv
+
+# Activate the virtual environment:
+source .venv/bin/activate
+```
+
+#### Install the required dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the application:
+#### Run the application:
+
 ```bash
 python run.py
 ```
