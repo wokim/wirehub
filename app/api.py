@@ -5,8 +5,8 @@ from .gpio.dfrobot_digital import write_digital_pin, read_digital_pin
 from .gpio.dfrobot_pwm import set_pwm_duty_cycle, get_pwm_duty_cycle
 from .gpio.mcp3008 import read_analog_from_mcp3008
 
-pins_bp = Blueprint('pins', __name__)
-api = Api(pins_bp, doc='/doc/pins', title='GPIO Pin Control API', description='API for controlling GPIO pins on a Raspberry Pi')
+apis_bp = Blueprint('apis', __name__)
+api = Api(apis_bp, doc='/doc', title='GPIO Pin Control API', description='API for controlling GPIO pins on a Raspberry Pi')
 
 @api.route('/digital/<int:pin>')
 @api.doc(params={'pin': 'A GPIO pin number for digital I/O'})
@@ -83,3 +83,48 @@ class MCP3008Pin(Resource):
             return {'message': str(e)}, 400
         except Exception as e:
             return {'message': 'An error occurred while reading the MCP3008 analog pin.'}, 500
+
+@api.route('/status')
+class Status(Resource):
+    @api.doc(description='Get the status of all GPIO pins.')
+    def get(self):
+        status = {
+            'digital': [],
+            'analog': [],
+            'mcp3008': [],
+            'pwm': []
+        }
+
+        # Read digital pins
+        for pin in range(0, 28):  # Assuming digital pins are from 0 to 27
+            try:
+                value = read_digital_pin(pin)
+                status['digital'].append({'pin': pin, 'value': value})
+            except Exception:
+                status['digital'].append({'pin': pin, 'value': 'Error'})
+
+        # Read analog pins
+        for pin in range(1, 5):  # Assuming analog pins are from 1 to 4
+            try:
+                value = read_analog_from_dfrobot(pin)
+                status['analog'].append({'pin': pin, 'value': value, 'bits': 12})
+            except Exception:
+                status['analog'].append({'pin': pin, 'value': 'Error', 'bits': 12})
+
+        # Read MCP3008 pins
+        for pin in range(0, 8):  # Assuming MCP3008 pins are from 0 to 7
+            try:
+                value = read_analog_from_mcp3008(pin)
+                status['mcp3008'].append({'pin': pin, 'value': value, 'bits': 10})
+            except Exception:
+                status['mcp3008'].append({'pin': pin, 'value': 'Error', 'bits': 10})
+
+        # Read PWM pins
+        for pin in range(1, 5):  # Assuming PWM pins are from 1 to 4
+            try:
+                value = get_pwm_duty_cycle(pin)
+                status['pwm'].append({'pin': pin, 'value': value})
+            except Exception:
+                status['pwm'].append({'pin': pin, 'value': 'Error'})
+
+        return jsonify(status)
