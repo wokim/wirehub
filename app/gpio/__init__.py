@@ -1,6 +1,10 @@
+import logging
 from .DFRobot_RaspberryPi_Expansion_Board import DFRobot_Expansion_Board_IIC as Board
 import RPi.GPIO as GPIO
 import spidev
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 board = Board(1, 0x10)    # Select i2c bus 1, set address to 0x10
 spi = spidev.SpiDev()
@@ -18,7 +22,7 @@ def init_board():
 
   # Set the specified pin as an OUTPUT
   GPIO.setup([i for i in range(22, 28)], GPIO.OUT, initial=GPIO.LOW)
-  print(f"GPIO setup complete!")
+  logger.info(f"GPIO setup complete!")
 
 def cleanup_board():
   GPIO.cleanup()
@@ -26,16 +30,16 @@ def cleanup_board():
 
 def detect_board():
   l = board.detecte()
-  print(f"Board list: {l}")
+  logger.info(f"Board list: {l}")
 
 def print_board_status():
   if board.last_operate_status == board.STA_OK:
-    print("board status: everything ok")
+    logger.info("board status: everything ok")
   elif board.last_operate_status == board.STA_ERR:
-    print("board status: unexpected error")
+    logger.error("board status: unexpected error")
   elif board.last_operate_status == board.STA_ERR_DEVICE_NOT_DETECTED:
-    print("board status: device not detected")
+    logger.error("board status: device not detected")
   elif board.last_operate_status == board.STA_ERR_PARAMETER:
-    print("board status: parameter error")
+    logger.error("board status: parameter error")
   elif board.last_operate_status == board.STA_ERR_SOFT_VERSION:
-    print("board status: unsupport board framware version")
+    logger.error("board status: unsupport board framware version")
