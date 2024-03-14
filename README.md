@@ -27,15 +27,15 @@ $ docker run --device /dev/i2c-1 --device /dev/gpiomem --device /dev/spidev0.0 -
 
 Below is the documentation for the available API endpoints, including their paths, methods, descriptions, and example request bodies for PUT methods.
 
-| Path                          | Method | Description                                                         | Request Parameters                         | Example Request Body for PUT                  |
-| ----------------------------- | ------ | ------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------- |
-| `/api/gpio/digital/<int:pin>` | GET    | Read the digital input value from a specified GPIO pin.             | `pin`: A GPIO pin number for digital I/O   | N/A                                           |
-| `/api/gpio/digital/<int:pin>` | PUT    | Write a digital output value to a specified GPIO pin.               | `pin`: A GPIO pin number for digital I/O   | `{"value": true}` or `{"value": false}`       |
-| `/api/gpio/pwm/<int:pin>`     | GET    | Read the PWM duty cycle value from a specified pin.                 | `pin`: A GPIO pin number for PWM output    | N/A                                           |
-| `/api/gpio/pwm/<int:pin>`     | PUT    | Write a PWM duty cycle value to a specified pin.                    | `pin`: A GPIO pin number for PWM output    | `{"value": 50.0}` (value range: 0.0 to 100.0) |
-| `/api/gpio/analog/<int:pin>`  | GET    | Read the analog value from a specified DFRobot Expansion Board pin. | `pin`: A GPIO pin number for analog input  | N/A                                           |
-| `/api/gpio/mcp3008/<int:pin>` | GET    | Read the analog value from a specified MCP3008 channel.             | `pin`: A channel number on the MCP3008 ADC | N/A                                           |
-| `/api/gpio/status`            | GET    | Get the status of all GPIO pins.                                    | None                                       | N/A                                           |
+| Path                          | Method | Description                                                         | Request Parameters                         | Example Request Body for PUT                  | Example Response Body                   |
+| ----------------------------- | ------ | ------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------- | --------------------------------------- |
+| `/api/gpio/digital/<int:pin>` | GET    | Read the digital input value from a specified GPIO pin.             | `pin`: A GPIO pin number for digital I/O   | N/A                                           | `{"pin": 5, "value": 1}`                |
+| `/api/gpio/digital/<int:pin>` | PUT    | Write a digital output value to a specified GPIO pin.               | `pin`: A GPIO pin number for digital I/O   | `{"value": true}` or `{"value": false}`       | `{"pin": 5, "value": 1}`                |
+| `/api/gpio/pwm/<int:pin>`     | GET    | Read the PWM duty cycle value from a specified pin.                 | `pin`: A GPIO pin number for PWM output    | N/A                                           | `{"pin": 1, "value": 50.5}`             |
+| `/api/gpio/pwm/<int:pin>`     | PUT    | Write a PWM duty cycle value to a specified pin.                    | `pin`: A GPIO pin number for PWM output    | `{"value": 50.0}` (value range: 0.0 to 100.0) | `{"pin": 1, "value": 50.5}`             |
+| `/api/gpio/analog/<int:pin>`  | GET    | Read the analog value from a specified DFRobot Expansion Board pin. | `pin`: A GPIO pin number for analog input  | N/A                                           | `{"pin": 2, "value": 1023, "bits": 12}` |
+| `/api/gpio/mcp3008/<int:pin>` | GET    | Read the analog value from a specified MCP3008 channel.             | `pin`: A channel number on the MCP3008 ADC | N/A                                           | `{"pin": 3, "value": 512, "bits": 12}`  |
+| `/api/gpio/status`            | GET    | Get the status of all GPIO pins.                                    | None                                       | N/A                                           | N/A                                     |
 
 Please replace `<int:pin>` with the actual pin number when making requests.
 
