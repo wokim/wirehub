@@ -10,14 +10,14 @@ def set_pwm_duty_cycle(channel, duty_cycle):
     voltage of PWM ⊕ is 3.3V.
 
     Args:
-        channel (int): The PWM channel to set (1-4).
+        channel (int): The PWM channel to set (0-3).
         duty_cycle (float): The duty cycle to set for the channel (0.0 - 100.0).
 
     Raises:
         ValueError: If the specified channel or duty cycle is out of range.
     """
-    if not 1 <= channel <= 4:
-        raise ValueError("Channel must be an integer between 1 and 4")
+    if not 0 <= channel <= 3:
+        raise ValueError("Channel must be an integer between 0 and 3")
     if not 0.0 <= duty_cycle <= 100.0:
         raise ValueError("Duty cycle must be a float between 0.0 and 100.0")
 
@@ -28,7 +28,7 @@ def get_pwm_duty_cycle(channel):
     Get the current PWM duty cycle for a specified channel on the DFRobot Expansion Board.
 
     Args:
-        channel (int): The PWM channel to get (1-4).
+        channel (int): The PWM channel to get (0-3).
 
     Returns:
         float: The current duty cycle for the specified channel.
@@ -36,7 +36,7 @@ def get_pwm_duty_cycle(channel):
     Raises:
         ValueError: If the specified channel is out of range.
     """
-    if not 1 <= channel <= 4:
-        raise ValueError("Channel must be an integer between 1 and 4")
+    if not 0 <= channel <= 3:
+        raise ValueError("Channel must be an integer between 0 and 3")
 
     return board.get_pwm_duty(channel)
