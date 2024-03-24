@@ -20,6 +20,7 @@ def read_digital_pin(pin):
         raise ValueError("Pin number must be in the range 0 to 27")
 
     try:
+        GPIO.setup(pin, GPIO.IN)
         return GPIO.input(pin)
     except Exception as e:
         raise Exception(f"Failed to read digital pin {pin}: {e}")
@@ -45,6 +46,7 @@ def write_digital_pin(pin, value):
         raise ValueError("Value must be either True, False, 1, or 0")
 
     try:
+        GPIO.setup(pin, GPIO.OUT)
         GPIO.output(pin, GPIO.HIGH if value in [True, 1] else GPIO.LOW)
     except Exception as e:
         raise Exception(f"Failed to write digital pin {pin}: {e}")

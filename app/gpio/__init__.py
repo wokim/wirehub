@@ -21,7 +21,8 @@ def init_board():
   GPIO.setmode(GPIO.BCM)
 
   # Set the specified pin as an OUTPUT
-  GPIO.setup([i for i in range(22, 28)], GPIO.OUT, initial=GPIO.LOW)
+  GPIO.setup([i for i in range(0, 27)], GPIO.OUT)
+  GPIO.output([i for i in range(0, 27)], GPIO.LOW)
   logger.info(f"GPIO setup complete!")
 
 def cleanup_board():
