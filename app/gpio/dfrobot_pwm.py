@@ -21,7 +21,8 @@ def set_pwm_duty_cycle(channel, duty_cycle):
     if not 0.0 <= duty_cycle <= 100.0:
         raise ValueError("Duty cycle must be a float between 0.0 and 100.0")
 
-    board.set_pwm_duty(channel, duty_cycle)
+    # DFRobot Expansion Board index is 1-based
+    board.set_pwm_duty(channel + 1, duty_cycle)
 
 def get_pwm_duty_cycle(channel):
     """
@@ -39,4 +40,4 @@ def get_pwm_duty_cycle(channel):
     if not 0 <= channel <= 3:
         raise ValueError("Channel must be an integer between 0 and 3")
 
-    return board.get_pwm_duty(channel)
+    return board.get_pwm_duty(channel + 1)
