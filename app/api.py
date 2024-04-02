@@ -118,7 +118,7 @@ class Status(Resource):
         }
 
         # Read digital pins
-        for pin in range(0, 28):  # Assuming digital pins are from 0 to 27
+        for pin in range(20, 28):  # Assuming digital pins are from 20 to 27
             try:
                 value = read_digital_pin(pin)
                 status['digital'].append({'pin': pin, 'value': value})
@@ -126,7 +126,7 @@ class Status(Resource):
                 status['digital'].append({'pin': pin, 'value': 'Error'})
 
         # Read analog pins
-        for pin in range(1, 5):  # Assuming analog pins are from 1 to 4
+        for pin in range(0, 4):  # Assuming analog pins are from 0 to 3
             try:
                 value = read_analog_from_dfrobot(pin)
                 status['analog'].append({'pin': pin, 'value': value, 'bits': 12})
@@ -142,7 +142,7 @@ class Status(Resource):
                 status['mcp3008'].append({'pin': pin, 'value': 'Error', 'bits': 10})
 
         # Read PWM pins
-        for pin in range(1, 5):  # Assuming PWM pins are from 1 to 4
+        for pin in range(0, 4):  # Assuming PWM pins are from 0 to 3
             try:
                 value = get_pwm_duty_cycle(pin)
                 status['pwm'].append({'pin': pin, 'value': value})

@@ -10,6 +10,8 @@ board = Board(1, 0x10)    # Select i2c bus 1, set address to 0x10
 spi = spidev.SpiDev()
 
 def init_board():
+  cleanup_board()
+  
   board.set_adc_enable()
   board.set_pwm_enable()
   board.set_pwm_frequency(1000)
@@ -20,9 +22,14 @@ def init_board():
   # Set GPIO mode to BCM
   GPIO.setmode(GPIO.BCM)
 
+  pins = [20, 21, 22, 23, 24, 25, 26, 27]
+  # pins = [0, 1, 2, 3, 4, 5, 6, 7]
+
+  for pin in pins:
+      GPIO.setup(pin, GPIO.OUT)
+      GPIO.output(pin, GPIO.LOW)
+
   # Set the specified pin as an OUTPUT
-  GPIO.setup([i for i in range(0, 27)], GPIO.OUT)
-  GPIO.output([i for i in range(0, 27)], GPIO.LOW)
   logger.info(f"GPIO setup complete!")
 
 def cleanup_board():
