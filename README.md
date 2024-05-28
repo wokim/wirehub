@@ -71,6 +71,12 @@ Run the Docker container:
 docker run --device /dev/i2c-1 --device /dev/gpiomem --device /dev/spidev0.0 --privileged -d -p 5000:5000 --log-opt max-size=10m --log-opt max-file=3 wirehub
 ```
 
+Open Swagger page:
+
+```bash
+open http://localhost:5000/api/doc
+```
+
 ### For Developers
 
 #### Setting up a virtual environment
